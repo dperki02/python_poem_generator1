@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Poem Generator</title>
+    <link
+      rel="stylesheet"
+      href="../static/style.css" />
+  </head>
+  <body>
+    <header>
+      <img
+        src="../static/itexps.png"
+        alt="asaka" />
+      <h1>Poem Generator</h1>
+      <h2>Saying it with style!</h2>
+    </header>
+
+    <div class="container">
+      <form id="poem-form">
+        <input
+          type="text"
+          id="prompt"
+          placeholder="Enter a theme or subject (e.g., 'Flower', 'Love')" />
+        <button type="submit">Generate Poem</button>
+      </form>
+      <div id="poem-output"></div>
+    </div>
+    <script>
+      document
+        .getElementById("poem-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const prompt = document.getElementById("prompt").value;
+          const response = await fetch("/generate_poem", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: prompt }),
+          });
+          const data = await response.json();
+          document.getElementById("poem-output").innerText = data.poem;
+        });
+    </script>
+  </body>
+</html>
